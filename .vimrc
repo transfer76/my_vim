@@ -13,6 +13,9 @@ Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-rails'
 Plug 'othree/html5.vim'
 Plug 'vim-ruby/vim-ruby'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'junegunn/gv.vim'
+Plug 'rking/ag.vim'
 " Snippets
 Plug 'tomtom/tlib_vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
@@ -53,6 +56,7 @@ let g:ctrlp_custom_ignore = {
   \ }
 
 let g:jsx_ext_required = 0
+let NERDTreeShowHidden=1
 colorscheme gruvbox
 set background=dark
 set backspace=2
@@ -72,6 +76,8 @@ set wildmenu
 set wildignore+=*/tmp/*,*/cache/*,*/log/*
 set completeopt=menuone
 set smartindent
+set autoread
+
 
 set statusline+=%#warningmsg#
 set statusline+=%*
