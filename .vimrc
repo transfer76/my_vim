@@ -5,6 +5,7 @@ Plug 'morhetz/gruvbox'
 Plug 'Valloric/YouCompleteMe'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
@@ -16,6 +17,13 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'junegunn/gv.vim'
 Plug 'rking/ag.vim'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'djoshea/vim-autoread'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'rking/ag.vim'
+Plug 'ngmy/vim-rubocop'
+Plug 'dense-analysis/ale'
+Plug 'bogado/file-line'
 " Snippets
 Plug 'tomtom/tlib_vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
@@ -36,9 +44,11 @@ filetype indent on
 syntax on
 let g:mapleader=','
 let g:ycm_use_clangd = 0
+let g:rails_ctags_arguments = '--languages=ruby . $(bundle list --paths)'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#ale#enabled = 1
 
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
@@ -49,11 +59,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ruby_checkers = ['rubocop']
-
-let g:ctrlp_map = '<c-f>'
-let g:ctrlp_custom_ignore = {
-  \ 'dir': 'node_modules\|deps\|_build'
-  \ }
 
 let g:jsx_ext_required = 0
 let NERDTreeShowHidden=1
@@ -77,8 +82,6 @@ set wildignore+=*/tmp/*,*/cache/*,*/log/*
 set completeopt=menuone
 set smartindent
 set autoread
-
-
 set statusline+=%#warningmsg#
 set statusline+=%*
 
@@ -115,3 +118,20 @@ filetype plugin on
 au FileType ruby,eruby setl ofu=rubycomplete
 au FileType html,xhtml setl ofu=htmlcomplete
 au FileType css setl ofu=csscomplete
+au CursorHold * checktime
+au FocusGained,BufEnter * :checktime
+
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? 'OK' : printf(
+    \   '%dW %dE',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
+
+set statusline=%{LinterStatus()}
