@@ -21,6 +21,7 @@ Plug 'rking/ag.vim'
 Plug 'ngmy/vim-rubocop'
 Plug 'dense-analysis/ale'
 Plug 'bogado/file-line'
+Plug 'cohama/lexima.vim'
 " Snippets
 Plug 'tomtom/tlib_vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
@@ -133,3 +134,6 @@ function! LinterStatus() abort
 endfunction
 
 set statusline=%{LinterStatus()}
+
+call lexima#add_rule({'char': '«', 'input_after': '»'})
+let g:lexima_map_escape = ''
