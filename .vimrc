@@ -22,6 +22,14 @@ Plug 'ngmy/vim-rubocop'
 Plug 'dense-analysis/ale'
 Plug 'bogado/file-line'
 Plug 'cohama/lexima.vim'
+"Show history buffer(F5)
+Plug 'mbbill/undotree'
+" Git history of row
+Plug 'rhysd/git-messenger.vim'
+" Icons
+Plug 'ryanoasis/vim-devicons'
+" List of last working files
+Plug 'mhinz/vim-startify'
 " Snippets
 Plug 'tomtom/tlib_vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
@@ -35,6 +43,12 @@ Plug 'mxw/vim-jsx'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'leafgarland/typescript-vim'
 Plug 'kchmck/vim-coffee-script'
+" Color schema
+Plug 'flazz/vim-colorschemes'
+Plug 'xolox/vim-colorscheme-switcher' 
+Plug 'xolox/vim-misc'
+" Surroundings parentheses, brackets, quotes, XML tags, and more
+Plug 'tpope/vim-surround'
 
 call plug#end()
 
@@ -137,3 +151,5 @@ set statusline=%{LinterStatus()}
 
 call lexima#add_rule({'char': '«', 'input_after': '»'})
 let g:lexima_map_escape = ''
+
+nnoremap <F5> :UndotreeToggle<cr>
