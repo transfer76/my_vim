@@ -4,9 +4,6 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'morhetz/gruvbox'
 Plug 'Valloric/YouCompleteMe'
 Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
-Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
@@ -16,12 +13,17 @@ Plug 'othree/html5.vim'
 Plug 'vim-ruby/vim-ruby'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'djoshea/vim-autoread'
-Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'rking/ag.vim'
 Plug 'ngmy/vim-rubocop'
 Plug 'dense-analysis/ale'
 Plug 'bogado/file-line'
 Plug 'cohama/lexima.vim'
+Plug 'preservim/nerdcommenter'
+"Git plugs
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 "Show history buffer(F5)
 Plug 'mbbill/undotree'
 " Git history of row
@@ -45,10 +47,12 @@ Plug 'leafgarland/typescript-vim'
 Plug 'kchmck/vim-coffee-script'
 " Color schema
 Plug 'flazz/vim-colorschemes'
-Plug 'xolox/vim-colorscheme-switcher' 
+Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc'
 " Surroundings parentheses, brackets, quotes, XML tags, and more
 Plug 'tpope/vim-surround'
+" RSpec
+Plug 'thoughtbot/vim-rspec'
 
 call plug#end()
 
@@ -66,6 +70,10 @@ let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
 let g:rubycomplete_rails = 1
 
+let g:NERDTreeGitStatusPorcelainVersion = 1
+
+" let g:vimrubocop_config = '/path/to/rubocop.yml'
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -74,6 +82,13 @@ let g:syntastic_ruby_checkers = ['rubocop']
 
 let g:jsx_ext_required = 0
 let NERDTreeShowHidden=1
+
+let g:NERDSpaceDelims = 1
+
+" setting new version of snipMate parser
+let g:snipMate = { 'snippet_version' : 1 }
+
+
 colorscheme gruvbox
 set background=dark
 set backspace=2
@@ -98,6 +113,10 @@ set autoread
 set statusline+=%#warningmsg#
 set statusline+=%*
 
+set noswapfile
+set nobackup
+set nowb
+
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
   \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -113,6 +132,11 @@ map <silent> <C-h> :call WinMove('h')<CR>
 map <silent> <C-j> :call WinMove('j')<CR>
 map <silent> <C-k> :call WinMove('k')<CR>
 map <silent> <C-l> :call WinMove('l')<CR>
+
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
 
 function! WinMove(key)
   let t:curwin = winnr()
