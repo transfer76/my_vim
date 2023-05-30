@@ -7,6 +7,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-rails'
 Plug 'othree/html5.vim'
@@ -19,6 +20,8 @@ Plug 'dense-analysis/ale'
 Plug 'bogado/file-line'
 Plug 'cohama/lexima.vim'
 Plug 'preservim/nerdcommenter'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'PhilRunninger/nerdtree-buffer-ops'
 "Git plugs
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
@@ -53,6 +56,11 @@ Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
 " RSpec
 Plug 'thoughtbot/vim-rspec'
+" Python
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'davidhalter/jedi-vim'
+Plug 'mitsuhiko/vim-jinja'
+Plug 'mitsuhiko/vim-python-combined'
 
 call plug#end()
 
@@ -72,7 +80,7 @@ let g:rubycomplete_rails = 1
 
 let g:NERDTreeGitStatusPorcelainVersion = 1
 
-" let g:vimrubocop_config = '/path/to/rubocop.yml'
+let g:vimrubocop_config = '/path/to/rubocop.yml'
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -90,32 +98,40 @@ let g:snipMate = { 'snippet_version' : 1 }
 
 
 colorscheme gruvbox
+set autoindent                      " automatic indenting for buffers not associated with a filetype
+set autoread                        " reload files changed outside vim
 set background=dark
 set backspace=2
-set number
-set showmatch
-set autoindent
+set completeopt=menuone
 set expandtab
-set tabstop=2
-set hlsearch
 set incsearch
+set hlsearch
+set list listchars=tab:\ \ ,trail:· " display trailing spaces & tabs
 set nocompatible
+set number                          " show line numbers
+set ruler                           " shows the status line down the bottom
 set shiftwidth=2
+set showmatch                       " show closing braces
+set showcmd                         " show incomplete cmds down the bottom
+set showmode                        " show current mode down the bottom
+set smartindent
 set softtabstop=2
+set tabstop=2
 set visualbell
-set autoread
 set wildmenu
 set wildignore+=*/tmp/*,*/cache/*,*/log/*
-set completeopt=menuone
-set smartindent
-set autoread
 
 set statusline+=%#warningmsg#
 set statusline+=%*
 
+" Turn Off Swap Files
 set noswapfile
 set nobackup
 set nowb
+
+" config devicons for mac
+set encoding=utf8
+let g:airline_powerline_fonts = 1
 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -177,3 +193,61 @@ call lexima#add_rule({'char': '«', 'input_after': '»'})
 let g:lexima_map_escape = ''
 
 nnoremap <F5> :UndotreeToggle<cr>
+
+" Python-mode settings
+
+" turn off autocomplit code(insted jedi-vim)
+let g:pymode_rope = 0
+let g:pymode_rope_completion = 0
+let g:pymode_rope_complete_on_dot = 0
+
+" documentation
+let g:pymode_doc = 0
+let g:pymode_doc_key = 'K'
+" checking code
+let g:pymode_lint = 1
+let g:pymode_lint_checker ="pyflakes,pep8"
+let g:pymode_lint_ignore="E501,W601,C0110"
+" checking code after saving
+let g:pymode_lint_write = 1
+
+" support virtualenv
+let g:pymode_virtualenv = 1
+
+" install breakpoints
+let g:pymode_breakpoint = 1
+let g:pymode_breakpoint_key = '<leader>b'
+
+" highlight syntacsis
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+let g:pymode_syntax_space_errors = g:pymode_syntax_all
+
+" turn off autofold for code
+let g:pymode_folding = 0
+
+" enable to start code
+let g:pymode_run = 0
+" Disable choose first function/method at autocomplete
+let g:jedi#popup_select_first = 0
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+
+au BufNewFile,BufRead *.py
+    set tabstop=4
+    set softtabstop=4
+    set shiftwidth=4
+    set textwidth=79
+    set expandtab
+    set autoindent
+    set fileformat=unix
+
+au BufNewFile,BufRead *.js, *.html, *.css
+    set tabstop=2
+    set softtabstop=2
+    set shiftwidth=2
+
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
