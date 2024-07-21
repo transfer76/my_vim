@@ -62,6 +62,9 @@ Plug 'davidhalter/jedi-vim'
 Plug 'mitsuhiko/vim-jinja'
 Plug 'mitsuhiko/vim-python-combined'
 
+" Go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 call plug#end()
 
 filetype indent on
