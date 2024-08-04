@@ -68,6 +68,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 
 filetype indent on
+filetype plugin on
 syntax on
 let g:mapleader=','
 let g:ycm_use_clangd = 0
